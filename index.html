@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EasyDo 365</title>
+
+    <!-- Preload critical fonts for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Material Symbols font -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=hail"
+    />
+
+    <!-- Material Icons fonts -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+    />
+
+    <!-- Primary multilingual font loads with optimized subsets -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap&subset=latin,latin-ext"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap&subset=latin,latin-ext"
+      rel="stylesheet"
+    />
+
+    <!-- Individual script fonts with complete character sets and proper subsets -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@100;200;300;400;500;600;700;800;900&display=swap&subset=devanagari,latin,latin-ext"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Telugu:wght@100;200;300;400;500;600;700;800;900&display=swap&subset=telugu,latin,latin-ext"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@100;200;300;400;500;600;700;800;900&display=swap&subset=gujarati,latin,latin-ext"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@100;200;300;400;500;600;700;800;900&display=swap&subset=bengali,latin,latin-ext"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@100;200;300;400;500;600;700;800;900&display=swap&subset=tamil,latin,latin-ext"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Kannada:wght@100;200;300;400;500;600;700;800;900&display=swap&subset=kannada,latin,latin-ext"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@100;200;300;400;500;600;700;800;900&display=swap&subset=malayalam,latin,latin-ext"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Oriya:wght@100;200;300;400;500;600;700;800;900&display=swap&subset=oriya,latin,latin-ext"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Gurmukhi:wght@100;200;300;400;500;600;700;800;900&display=swap&subset=gurmukhi,latin,latin-ext"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100;200;300;400;500;600;700;800;900&display=swap&subset=arabic,latin,latin-ext"
+      rel="stylesheet"
+    />
+
+    <!-- Global Language Management Script -->
+    <script>
+      (function () {
+        // Initialize language immediately
+        function initLanguage() {
+          const lang = localStorage.getItem("siteLang") || "en";
+          document.documentElement.lang = lang;
+          window.siteLang = lang;
+          return lang;
+        }
+
+        // Set up change language function
+        function setupChangeLanguage() {
+          window.changeLanguage = function (lang) {
+            localStorage.setItem("siteLang", lang);
+            document.documentElement.lang = lang;
+            window.siteLang = lang;
+            window.dispatchEvent(
+              new CustomEvent("languageChange", { detail: { language: lang } }),
+            );
+            window.dispatchEvent(new Event("storage"));
+            console.log("🌐 Language changed to:", lang);
+          };
+        }
+
+        // Initialize on load
+        initLanguage();
+        setupChangeLanguage();
+
+        // Re-initialize on navigation (for SPA routing)
+        let lastUrl = location.href;
+        const observer = new MutationObserver(() => {
+          const url = location.href;
+          if (url !== lastUrl) {
+            lastUrl = url;
+            setTimeout(() => {
+              initLanguage();
+              setupChangeLanguage();
+            }, 50);
+          }
+        });
+
+        observer.observe(document, { subtree: true, childList: true });
+
+        // Also check on focus (tab switching)
+        window.addEventListener("focus", () => {
+          initLanguage();
+          setupChangeLanguage();
+        });
+      })();
+    </script>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
